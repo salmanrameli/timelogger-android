@@ -1,8 +1,10 @@
 package com.example.timelogger;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -203,16 +205,36 @@ public class MainActivity extends AppCompatActivity {
         resetTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                resetCheckInTime();
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
-                resetSupposedCheckOutTime();
+                alertDialogBuilder.setMessage("Reset all data?");
 
-                resetReservedTime();
+                alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        resetCheckInTime();
 
-                checkInTimeTextView.setText("");
-                reservedTimeTextView.setText("");
+                        resetSupposedCheckOutTime();
 
-                Toast.makeText(MainActivity.this, "Reset success!", Toast.LENGTH_SHORT).show();
+                        resetReservedTime();
+
+                        checkInTimeTextView.setText("");
+                        reservedTimeTextView.setText("");
+
+                        Toast.makeText(MainActivity.this, "Reset success!", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                AlertDialog dialog = alertDialogBuilder.create();
+
+                dialog.show();
             }
         });
     }
