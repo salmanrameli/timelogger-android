@@ -113,6 +113,25 @@ public class MainActivity extends AppCompatActivity {
         editorReservedTime.commit();
     }
 
+    public void processCheckIn() {
+        Calendar checkInCalendar = Calendar.getInstance();
+        checkInCalendar.setTime(new Date());
+        Timestamp checkInTime = new Timestamp(checkInCalendar.getTimeInMillis());
+
+        setCheckInTime(checkInTime);
+
+        checkInTimeTextView.setText(checkInTime.toString().substring(11, 19));
+
+        Calendar supposedCheckOutCalendar = Calendar.getInstance();
+        supposedCheckOutCalendar.setTime(new Date());
+        supposedCheckOutCalendar.add(Calendar.HOUR, 9);
+        Timestamp supposedCheckOutTime = new Timestamp(supposedCheckOutCalendar.getTimeInMillis());
+
+        setSupposedCheckOutTime(supposedCheckOutTime);
+
+        Toast.makeText(MainActivity.this, "Check in success!", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -139,27 +158,66 @@ public class MainActivity extends AppCompatActivity {
 
         String checkInTime = getCheckInTime();
 
-        checkInTimeTextView.setText(checkInTime);
+        if(Boolean.parseBoolean(checkInTime)) {
+            checkInTimeTextView.setText(checkInTime.substring(11, 19));
+        }
 
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar checkInCalendar = Calendar.getInstance();
-                checkInCalendar.setTime(new Date());
-                Timestamp checkInTime = new Timestamp(checkInCalendar.getTimeInMillis());
+                if(!getCheckInTime().equals("0")) {
+                    Calendar checkInCalendar = Calendar.getInstance();
+                    checkInCalendar.setTime(new Date());
+                    Timestamp checkInTime = new Timestamp(checkInCalendar.getTimeInMillis());
 
-                setCheckInTime(checkInTime);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-                checkInTimeTextView.setText(checkInTime.toString());
+                    String stringCheckInTime = String.valueOf(checkInTime).substring(0, 9);
 
-                Calendar supposedCheckOutCalendar = Calendar.getInstance();
-                supposedCheckOutCalendar.setTime(new Date());
-                supposedCheckOutCalendar.add(Calendar.HOUR, 9);
-                Timestamp supposedCheckOutTime = new Timestamp(supposedCheckOutCalendar.getTimeInMillis());
+                    Date currentCheckInTime = null;
+                    try {
+                        currentCheckInTime = sdf.parse(stringCheckInTime);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
-                setSupposedCheckOutTime(supposedCheckOutTime);
+                    Date previousCheckInTime = null;
+                    try {
+                        previousCheckInTime = sdf.parse(getCheckInTime().substring(0, 9));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
 
-                Toast.makeText(MainActivity.this, "Check in success!", Toast.LENGTH_SHORT).show();
+                    System.out.println("recent: " + currentCheckInTime + " previous: " + previousCheckInTime);
+
+                    if(currentCheckInTime.compareTo(previousCheckInTime) <= 0) {
+                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
+
+                        alertDialogBuilder.setMessage("Check In Again?");
+
+                        alertDialogBuilder.setPositiveButton("Check In", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                processCheckIn();
+                            }
+                        });
+
+                        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+
+                        AlertDialog dialog = alertDialogBuilder.create();
+
+                        dialog.show();
+                    } else {
+                        processCheckIn();
+                    }
+                } else {
+                    processCheckIn();
+                }
             }
         });
 
@@ -203,7 +261,7 @@ public class MainActivity extends AppCompatActivity {
                             setReservedTime(newReservedTime);
                         }
 
-                        String minutes = getReservedTime() + " minutes";
+                        String minutes = getReservedTime();
 
                         reservedTimeTextView.setText(minutes);
 
