@@ -131,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
 
         reservedTimeTextView.setText(reservedTime);
 
+        if(Integer.valueOf(getReservedTime()) >= 0) {
+            reservedTimeTextView.setTextColor(Color.GREEN);
+        } else {
+            reservedTimeTextView.setTextColor(Color.RED);
+        }
+
         String checkInTime = getCheckInTime();
 
         checkInTimeTextView.setText(checkInTime);
@@ -160,45 +166,65 @@ public class MainActivity extends AppCompatActivity {
         checkOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Date date = new Date();
-                Timestamp time = new Timestamp(date.getTime());
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
 
-                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+                alertDialogBuilder.setMessage("Check Out?");
 
-                Date parsedDate = null;
+                alertDialogBuilder.setPositiveButton("Check Out", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Date date = new Date();
+                        Timestamp time = new Timestamp(date.getTime());
 
-                try {
-                    String supposedCheckOutTime = getSupposedCheckOutTime();
+                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
 
-                    parsedDate = dateFormat.parse(supposedCheckOutTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                        Date parsedDate = null;
 
-                Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+                        try {
+                            String supposedCheckOutTime = getSupposedCheckOutTime();
 
-                long diff = time.getTime() - timestamp.getTime();
-                long diffMinutes = diff / (60 * 1000);
+                            parsedDate = dateFormat.parse(supposedCheckOutTime);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
 
-                String reservedTime = getReservedTime();
+                        Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
 
-                if(reservedTime.equals("0")) {
-                    setReservedTime(diffMinutes);
-                } else {
-                    long newReservedTime = Long.valueOf(reservedTime) + diffMinutes;
+                        long diff = time.getTime() - timestamp.getTime();
+                        long diffMinutes = diff / (60 * 1000);
 
-                    setReservedTime(newReservedTime);
-                }
+                        String reservedTime = getReservedTime();
 
-                String minutes = getReservedTime() + " minutes";
+                        if(reservedTime.equals("0")) {
+                            setReservedTime(diffMinutes);
+                        } else {
+                            long newReservedTime = Long.valueOf(reservedTime) + diffMinutes;
 
-                reservedTimeTextView.setText(minutes);
+                            setReservedTime(newReservedTime);
+                        }
 
-                if(Integer.valueOf(getReservedTime()) < 0) {
-                    reservedTimeTextView.setTextColor(Color.RED);
-                } else {
-                    reservedTimeTextView.setTextColor(Color.GREEN);
-                }
+                        String minutes = getReservedTime() + " minutes";
+
+                        reservedTimeTextView.setText(minutes);
+
+                        if(Integer.valueOf(getReservedTime()) < 0) {
+                            reservedTimeTextView.setTextColor(Color.RED);
+                        } else {
+                            reservedTimeTextView.setTextColor(Color.GREEN);
+                        }
+                    }
+                });
+
+                alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+
+                AlertDialog dialog = alertDialogBuilder.create();
+
+                dialog.show();
             }
         });
 
