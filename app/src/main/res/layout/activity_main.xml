@@ -8,46 +8,43 @@
 
     <Button
         android:id="@+id/checkInButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="161dp"
-        android:layout_marginBottom="16dp"
-        android:text="Check In"
-        app:layout_constraintBottom_toTopOf="@+id/checkOutButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reservedTimeTextView" />
+        android:layout_marginStart="35dp"
+        android:layout_marginBottom="113dp"
+        android:backgroundTint="#00C851"
+        android:text="IN"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/checkOutButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="162dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="162dp"
-        android:text="Check Out"
+        android:layout_marginEnd="35dp"
+        android:layout_marginBottom="113dp"
+        android:backgroundTint="#ff4444"
+        android:text="OUT"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.538"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkInButton" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/reservedTimeTextView"
-        android:layout_width="194dp"
-        android:layout_height="54dp"
-        android:layout_marginStart="108dp"
-        android:layout_marginTop="291dp"
-        android:layout_marginEnd="109dp"
-        android:layout_marginBottom="18dp"
+        android:layout_width="264dp"
+        android:layout_height="122dp"
+        android:layout_marginStart="77dp"
+        android:layout_marginTop="125dp"
+        android:layout_marginEnd="70dp"
+        android:text="--"
         android:textAlignment="center"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/checkInButton"
+        android:textSize="100sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/resetTextView" />
 
     <TextView
         android:id="@+id/resetTextView"
@@ -57,6 +54,8 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="52dp"
         android:text="Reset"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#FF5722"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -65,19 +64,36 @@
         android:id="@+id/checkInTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="303dp"
-        android:text="Check In Time for Today: "
+        android:layout_marginStart="132dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="133dp"
+        android:text="Today's Check In Time:"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewMinutes" />
 
     <TextView
         android:id="@+id/checkInTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="302dp"
+        android:layout_marginStart="205dp"
+        android:layout_marginTop="403dp"
+        android:layout_marginEnd="206dp"
         android:textAlignment="center"
-        app:layout_constraintStart_toEndOf="@+id/checkInTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMinutes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="165dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="166dp"
+        android:text="minutes"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reservedTimeTextView" />
 </androidx.constraintlayout.widget.ConstraintLayout>
