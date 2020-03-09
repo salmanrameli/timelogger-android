@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         checkInButton = (Button) findViewById(R.id.checkInButton);
         checkOutButton = (Button) findViewById(R.id.checkOutButton);
 
-        String reservedTime = getReservedTime() + " minutes";
+        String reservedTime = getReservedTime();
 
         reservedTimeTextView.setText(reservedTime);
 

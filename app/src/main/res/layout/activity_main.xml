@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@mipmap/bg"
     tools:context=".MainActivity">
 
     <Button
@@ -15,7 +16,7 @@
         android:layout_marginBottom="113dp"
         android:backgroundTint="#00C851"
         android:text="IN"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -28,7 +29,7 @@
         android:layout_marginBottom="113dp"
         android:backgroundTint="#ff4444"
         android:text="OUT"
-        android:textSize="30sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -55,7 +56,7 @@
         android:layout_marginEnd="52dp"
         android:text="Reset"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:textColor="#FF5722"
+        android:textColor="#00BCD4"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -68,6 +69,7 @@
         android:layout_marginTop="33dp"
         android:layout_marginEnd="133dp"
         android:text="Today's Check In Time:"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewMinutes" />
@@ -80,6 +82,7 @@
         android:layout_marginTop="403dp"
         android:layout_marginEnd="206dp"
         android:textAlignment="center"
+        android:textColor="#FFFFFF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -93,6 +96,8 @@
         android:layout_marginEnd="166dp"
         android:text="minutes"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/reservedTimeTextView" />
