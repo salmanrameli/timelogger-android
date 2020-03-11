@@ -59,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
         editorReservedTime.commit();
     }
 
+    public void setHasCheckedIn() {
+        SharedPreferences sharedPreferencesHasCheckedIn = context.getSharedPreferences(
+                "hasCheckedIn", Context.MODE_PRIVATE
+        );
+
+        SharedPreferences.Editor editorHasCheckedIn = sharedPreferencesHasCheckedIn.edit();
+        editorHasCheckedIn.putBoolean("hasCheckedIn", true);
+        editorHasCheckedIn.commit();
+    }
+
     public String getCheckInTime() {
         SharedPreferences sharedPreferencesCheckIn = context.getSharedPreferences(
                 "checkInTime", Context.MODE_PRIVATE
@@ -81,6 +91,14 @@ public class MainActivity extends AppCompatActivity {
         );
 
         return sharedPreferencesReservedTime.getString("reservedTime", "0");
+    }
+
+    public Boolean getHasCheckedIn() {
+        SharedPreferences sharedPreferencesHasCheckedIn = context.getSharedPreferences(
+                "hasCheckedIn", Context.MODE_PRIVATE
+        );
+
+        return sharedPreferencesHasCheckedIn.getBoolean("hasCheckedIn", false);
     }
 
     public void resetCheckInTime() {
@@ -111,6 +129,16 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences.Editor editorReservedTime = sharedPreferencesReservedTime.edit();
         editorReservedTime.putString("reservedTime", "0");
         editorReservedTime.commit();
+    }
+
+    public void resetHasCheckedIn() {
+        SharedPreferences sharedPreferencesHasCheckedIn = context.getSharedPreferences(
+                "hasCheckedIn", Context.MODE_PRIVATE
+        );
+
+        SharedPreferences.Editor editorHasCheckedIn = sharedPreferencesHasCheckedIn.edit();
+        editorHasCheckedIn.putBoolean("hasCheckedIn", false);
+        editorHasCheckedIn.commit();
     }
 
     public void processCheckIn() {
@@ -146,9 +174,7 @@ public class MainActivity extends AppCompatActivity {
         checkInButton = (Button) findViewById(R.id.checkInButton);
         checkOutButton = (Button) findViewById(R.id.checkOutButton);
 
-        String reservedTime = getReservedTime();
-
-        reservedTimeTextView.setText(reservedTime);
+        reservedTimeTextView.setText(getReservedTime());
 
         if(Integer.valueOf(getReservedTime()) >= 0) {
             reservedTimeTextView.setTextColor(Color.GREEN);
@@ -162,62 +188,18 @@ public class MainActivity extends AppCompatActivity {
             checkInTimeTextView.setText(checkInTime.substring(11, 19));
         }
 
+        if(getHasCheckedIn()) {
+            checkInButton.setEnabled(false);
+        } else {
+            checkInButton.setEnabled(true);
+        }
+
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!getCheckInTime().equals("0")) {
-                    Calendar checkInCalendar = Calendar.getInstance();
-                    checkInCalendar.setTime(new Date());
-                    Timestamp checkInTime = new Timestamp(checkInCalendar.getTimeInMillis());
+                checkInButton.setEnabled(false);
 
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-
-                    String stringCheckInTime = String.valueOf(checkInTime).substring(0, 9);
-
-                    Date currentCheckInTime = null;
-                    try {
-                        currentCheckInTime = sdf.parse(stringCheckInTime);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    Date previousCheckInTime = null;
-                    try {
-                        previousCheckInTime = sdf.parse(getCheckInTime().substring(0, 9));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                    System.out.println("recent: " + currentCheckInTime + " previous: " + previousCheckInTime);
-
-                    if(currentCheckInTime.compareTo(previousCheckInTime) <= 0) {
-                        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(MainActivity.this);
-
-                        alertDialogBuilder.setMessage("Check In Again?");
-
-                        alertDialogBuilder.setPositiveButton("Check In", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                processCheckIn();
-                            }
-                        });
-
-                        alertDialogBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        });
-
-                        AlertDialog dialog = alertDialogBuilder.create();
-
-                        dialog.show();
-                    } else {
-                        processCheckIn();
-                    }
-                } else {
-                    processCheckIn();
-                }
+                processCheckIn();
             }
         });
 
@@ -270,6 +252,8 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             reservedTimeTextView.setTextColor(Color.GREEN);
                         }
+
+                        checkInButton.setEnabled(true);
                     }
                 });
 
@@ -301,6 +285,10 @@ public class MainActivity extends AppCompatActivity {
                         resetSupposedCheckOutTime();
 
                         resetReservedTime();
+
+                        resetHasCheckedIn();
+
+                        checkInButton.setEnabled(true);
 
                         checkInTimeTextView.setText("");
                         reservedTimeTextView.setText("");
