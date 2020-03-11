@@ -59,13 +59,13 @@ public class MainActivity extends AppCompatActivity {
         editorReservedTime.commit();
     }
 
-    public void setHasCheckedIn() {
+    public void setHasCheckedIn(Boolean hasCheckedIn) {
         SharedPreferences sharedPreferencesHasCheckedIn = context.getSharedPreferences(
                 "hasCheckedIn", Context.MODE_PRIVATE
         );
 
         SharedPreferences.Editor editorHasCheckedIn = sharedPreferencesHasCheckedIn.edit();
-        editorHasCheckedIn.putBoolean("hasCheckedIn", true);
+        editorHasCheckedIn.putBoolean("hasCheckedIn", hasCheckedIn);
         editorHasCheckedIn.commit();
     }
 
@@ -157,6 +157,8 @@ public class MainActivity extends AppCompatActivity {
 
         setSupposedCheckOutTime(supposedCheckOutTime);
 
+        setHasCheckedIn(true);
+
         Toast.makeText(MainActivity.this, "Check in success!", Toast.LENGTH_SHORT).show();
     }
 
@@ -197,9 +199,9 @@ public class MainActivity extends AppCompatActivity {
         checkInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkInButton.setEnabled(false);
-
                 processCheckIn();
+
+                checkInButton.setEnabled(false);
             }
         });
 
@@ -252,6 +254,8 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             reservedTimeTextView.setTextColor(Color.GREEN);
                         }
+
+                        setHasCheckedIn(false);
 
                         checkInButton.setEnabled(true);
                     }
