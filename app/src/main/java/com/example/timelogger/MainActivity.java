@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
         if(!TextUtils.isEmpty(checkInTime)) {
             checkInTimeTextView.setText(checkInTime.substring(11, 19));
         }
-        app-debug.apk
+
         if(getHasCheckedIn()) {
             checkInButton.setEnabled(false);
             checkOutButton.setEnabled(true);
