@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -186,14 +187,16 @@ public class MainActivity extends AppCompatActivity {
 
         String checkInTime = getCheckInTime();
 
-        if(Boolean.parseBoolean(checkInTime)) {
+        if(!TextUtils.isEmpty(checkInTime)) {
             checkInTimeTextView.setText(checkInTime.substring(11, 19));
         }
-
+        app-debug.apk
         if(getHasCheckedIn()) {
             checkInButton.setEnabled(false);
+            checkOutButton.setEnabled(true);
         } else {
             checkInButton.setEnabled(true);
+            checkOutButton.setEnabled(false);
         }
 
         checkInButton.setOnClickListener(new View.OnClickListener() {
@@ -202,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
                 processCheckIn();
 
                 checkInButton.setEnabled(false);
+                checkOutButton.setEnabled(true);
             }
         });
 
@@ -258,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
                         setHasCheckedIn(false);
 
                         checkInButton.setEnabled(true);
+                        checkOutButton.setEnabled(false);
                     }
                 });
 
@@ -293,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                         resetHasCheckedIn();
 
                         checkInButton.setEnabled(true);
+                        checkOutButton.setEnabled(false);
 
                         checkInTimeTextView.setText("");
                         reservedTimeTextView.setText("");
